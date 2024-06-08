@@ -4,8 +4,8 @@
 // ignore: depend_on_referenced_packages
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_home/auth_gate.dart';
-import 'package:smart_home/profile_page.dart';
+import 'package:smart_home/auth/auth_gate.dart';
+import 'package:smart_home/screen/smart_home_screen.dart';
 
 class FirebaseAuthScreen extends StatefulWidget {
   const FirebaseAuthScreen({super.key});
@@ -41,7 +41,7 @@ class _FirebaseAuthScreenState extends State<FirebaseAuthScreen> {
                   stream: auth.authStateChanges(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      return const ProfilePage();
+                      return const SmartHomeScreen();
                     }
                     return const AuthGate();
                   },
