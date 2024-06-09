@@ -6,12 +6,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_home/screen/smart_home_screen.dart';
 
+// Enum để xác định chế độ đăng nhập hoặc đăng ký
 enum AuthMode { login, register }
 
+// Extension để lấy tiêu đề dựa trên chế độ hiện tại
 extension on AuthMode {
   String get title => this == AuthMode.login ? 'Đăng nhập' : 'Đăng ký';
 }
 
+// Widget chính cho việc đăng nhập và đăng ký
 class AuthGate extends StatefulWidget {
   const AuthGate({super.key});
 
@@ -20,11 +23,11 @@ class AuthGate extends StatefulWidget {
 }
 
 class _AuthGateState extends State<AuthGate> {
-  var mode = AuthMode.login;
+  var mode = AuthMode.login; // Chế độ hiện tại (đăng nhập hoặc đăng ký)
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
-  final auth = FirebaseAuth.instance;
+  final formKey = GlobalKey<FormState>(); // Khóa cho form
+  final auth = FirebaseAuth.instance; // Tham chiếu đến FirebaseAuth
 
   @override
   Widget build(BuildContext context) {
@@ -150,6 +153,7 @@ class _AuthGateState extends State<AuthGate> {
     );
   }
 
+  // Hàm xử lý đăng ký người dùng
   Future<void> register() async {
     print('Thực hiện chức năng đăng ký người dùng');
     final email = emailController.text.trim();
@@ -162,6 +166,7 @@ class _AuthGateState extends State<AuthGate> {
     }
   }
 
+  // Hàm xử lý đăng nhập người dùng
   Future<void> login() async {
     print('Thực hiện chức năng đăng nhập');
     final email = emailController.text.trim();
@@ -176,9 +181,7 @@ class _AuthGateState extends State<AuthGate> {
     // ignore: use_build_context_synchronously
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(
-          builder: (context) =>
-              const SmartHomeScreen()), // Thay 'HomePage()' bằng trang chính của ứng dụng của bạn
+      MaterialPageRoute(builder: (context) => const SmartHomeScreen()),
     );
   }
 }

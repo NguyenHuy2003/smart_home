@@ -4,8 +4,9 @@ import 'package:smart_home/screen/smarthome/temp_hum_sensor_screen.dart';
 
 import 'profile_page.dart';
 import 'smarthome/distance_sensor_screen.dart';
-import 'smarthome/wifi_screen.dart'; // Import WiFiPage
+import 'smarthome/wifi_screen.dart';
 
+// Định nghĩa màn hình chính của nhà thông minh
 class SmartHomeScreen extends StatelessWidget {
   const SmartHomeScreen({Key? key}) : super(key: key);
 
@@ -22,6 +23,7 @@ class SmartHomeScreen extends StatelessWidget {
           ),
         ),
         actions: [
+          // Nút để chuyển đến trang hồ sơ người dùng
           IconButton(
             onPressed: () {
               Navigator.push(
@@ -52,14 +54,16 @@ class SmartHomeScreen extends StatelessWidget {
   }
 }
 
+// Định nghĩa lớp Device để lưu trữ thông tin của từng thiết bị
 class Device {
   final String name;
   final IconData icon;
-  final Widget page; // Add this field
+  final Widget page;
 
   Device({required this.name, required this.icon, required this.page});
 }
 
+// Định nghĩa thẻ hiển thị thông tin thiết bị
 class DeviceCard extends StatelessWidget {
   final Device device;
 
@@ -71,7 +75,7 @@ class DeviceCard extends StatelessWidget {
       elevation: 2,
       child: InkWell(
         onTap: () {
-          // Navigate to the specific page
+          // Điều hướng đến trang cụ thể của thiết bị
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => device.page),
@@ -90,6 +94,7 @@ class DeviceCard extends StatelessWidget {
   }
 }
 
+// Danh sách các thiết bị và trang tương ứng
 final List<Device> deviceList = [
   Device(
       name: 'Đèn',

@@ -5,9 +5,11 @@ import 'auth/firebase_auth_screen.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Đảm bảo Flutter được khởi tạo trước khi chạy bất kỳ mã nào
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions
+        .currentPlatform, // Khởi tạo Firebase với các tùy chọn nền tảng hiện tại
   );
   runApp(const MyApp());
 }
@@ -18,8 +20,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: FirebaseAuthScreen(),
+      debugShowCheckedModeBanner: false, // Tắt banner debug
+      home: FirebaseAuthScreen(), // Màn hình chính của ứng dụng
     );
   }
 }

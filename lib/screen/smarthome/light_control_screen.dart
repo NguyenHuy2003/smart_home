@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+// Định nghĩa màn hình điều khiển đèn
 class LightControlScreen extends StatefulWidget {
   const LightControlScreen({super.key});
 
@@ -8,25 +9,31 @@ class LightControlScreen extends StatefulWidget {
   State<LightControlScreen> createState() => _LightControlScreenState();
 }
 
+// Định nghĩa trạng thái của màn hình điều khiển đèn
 class _LightControlScreenState extends State<LightControlScreen> {
+  // Khai báo các tham chiếu đến cơ sở dữ liệu Firebase cho từng đèn
   late DatabaseReference _light1Ref;
   late DatabaseReference _light4Ref;
   late DatabaseReference _light5Ref;
   late DatabaseReference _light6Ref;
 
+  // Phương thức khởi tạo
   @override
   void initState() {
     super.initState();
+    // Khởi tạo các tham chiếu đến đường dẫn tương ứng của các đèn trong Firebase
     _light1Ref = FirebaseDatabase.instance.ref('PTIOT_DHT/LED_01');
     _light4Ref = FirebaseDatabase.instance.ref('PTIOT_DHT/LED_04');
     _light5Ref = FirebaseDatabase.instance.ref('PTIOT_DHT/LED_05');
     _light6Ref = FirebaseDatabase.instance.ref('PTIOT_DHT/LED_06');
   }
 
+  // Phương thức chuyển đổi trạng thái đèn
   void _toggleLight(DatabaseReference lightRef, bool value) {
-    lightRef.set(value ? 1 : 0);
+    lightRef.set(value ? 1 : 0); // Cập nhật giá trị trong Firebase
   }
 
+  // Xây dựng giao diện của màn hình
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +53,7 @@ class _LightControlScreenState extends State<LightControlScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Light Switch Card 1
+            // Card điều khiển đèn 1
             Card(
               elevation: 4,
               child: Padding(
@@ -61,20 +68,24 @@ class _LightControlScreenState extends State<LightControlScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    // Sử dụng StreamBuilder để lắng nghe thay đổi dữ liệu từ Firebase
                     StreamBuilder<DatabaseEvent>(
                       stream: _light1Ref.onValue,
                       builder: (context, snapshot) {
+                        // Kiểm tra xem có dữ liệu hay không
                         if (snapshot.hasData &&
                             !snapshot.hasError &&
                             snapshot.data?.snapshot.value != null) {
                           bool isLightOn =
                               (snapshot.data!.snapshot.value as int) == 1;
+                          // Hiển thị công tắc chuyển đổi trạng thái đèn
                           return Switch(
                             value: isLightOn,
                             onChanged: (value) =>
                                 _toggleLight(_light1Ref, value),
                           );
                         } else {
+                          // Hiển thị vòng tròn tiến trình khi đang tải dữ liệu
                           return const CircularProgressIndicator();
                         }
                       },
@@ -84,7 +95,7 @@ class _LightControlScreenState extends State<LightControlScreen> {
               ),
             ),
             const SizedBox(height: 16.0),
-            // Light Switch Card 2
+            // Card điều khiển đèn 4
             Card(
               elevation: 4,
               child: Padding(
@@ -99,20 +110,24 @@ class _LightControlScreenState extends State<LightControlScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    // Sử dụng StreamBuilder để lắng nghe thay đổi dữ liệu từ Firebase
                     StreamBuilder<DatabaseEvent>(
                       stream: _light4Ref.onValue,
                       builder: (context, snapshot) {
+                        // Kiểm tra xem có dữ liệu hay không
                         if (snapshot.hasData &&
                             !snapshot.hasError &&
                             snapshot.data?.snapshot.value != null) {
                           bool isLightOn =
                               (snapshot.data!.snapshot.value as int) == 1;
+                          // Hiển thị công tắc chuyển đổi trạng thái đèn
                           return Switch(
                             value: isLightOn,
                             onChanged: (value) =>
                                 _toggleLight(_light4Ref, value),
                           );
                         } else {
+                          // Hiển thị vòng tròn tiến trình khi đang tải dữ liệu
                           return const CircularProgressIndicator();
                         }
                       },
@@ -122,7 +137,7 @@ class _LightControlScreenState extends State<LightControlScreen> {
               ),
             ),
             const SizedBox(height: 16.0),
-            // Light Switch Card 3
+            // Card điều khiển đèn 5
             Card(
               elevation: 4,
               child: Padding(
@@ -137,20 +152,24 @@ class _LightControlScreenState extends State<LightControlScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    // Sử dụng StreamBuilder để lắng nghe thay đổi dữ liệu từ Firebase
                     StreamBuilder<DatabaseEvent>(
                       stream: _light5Ref.onValue,
                       builder: (context, snapshot) {
+                        // Kiểm tra xem có dữ liệu hay không
                         if (snapshot.hasData &&
                             !snapshot.hasError &&
                             snapshot.data?.snapshot.value != null) {
                           bool isLightOn =
                               (snapshot.data!.snapshot.value as int) == 1;
+                          // Hiển thị công tắc chuyển đổi trạng thái đèn
                           return Switch(
                             value: isLightOn,
                             onChanged: (value) =>
                                 _toggleLight(_light5Ref, value),
                           );
                         } else {
+                          // Hiển thị vòng tròn tiến trình khi đang tải dữ liệu
                           return const CircularProgressIndicator();
                         }
                       },
@@ -160,7 +179,7 @@ class _LightControlScreenState extends State<LightControlScreen> {
               ),
             ),
             const SizedBox(height: 16.0),
-            // Light Switch Card 4
+            // Card điều khiển đèn 6
             Card(
               elevation: 4,
               child: Padding(
@@ -175,20 +194,24 @@ class _LightControlScreenState extends State<LightControlScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    // Sử dụng StreamBuilder để lắng nghe thay đổi dữ liệu từ Firebase
                     StreamBuilder<DatabaseEvent>(
                       stream: _light6Ref.onValue,
                       builder: (context, snapshot) {
+                        // Kiểm tra xem có dữ liệu hay không
                         if (snapshot.hasData &&
                             !snapshot.hasError &&
                             snapshot.data?.snapshot.value != null) {
                           bool isLightOn =
                               (snapshot.data!.snapshot.value as int) == 1;
+                          // Hiển thị công tắc chuyển đổi trạng thái đèn
                           return Switch(
                             value: isLightOn,
                             onChanged: (value) =>
                                 _toggleLight(_light6Ref, value),
                           );
                         } else {
+                          // Hiển thị vòng tròn tiến trình khi đang tải dữ liệu
                           return const CircularProgressIndicator();
                         }
                       },

@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+// Định nghĩa màn hình cảm biến nhiệt độ và độ ẩm
 class TempHumSensorScreen extends StatefulWidget {
   const TempHumSensorScreen({super.key});
 
@@ -8,17 +9,22 @@ class TempHumSensorScreen extends StatefulWidget {
   State<TempHumSensorScreen> createState() => _TempHumSensorScreenState();
 }
 
+// Định nghĩa trạng thái của màn hình cảm biến nhiệt độ và độ ẩm
 class _TempHumSensorScreenState extends State<TempHumSensorScreen> {
+  // Khai báo các tham chiếu đến cơ sở dữ liệu Firebase cho nhiệt độ và độ ẩm
   late DatabaseReference _temperatureRef;
   late DatabaseReference _humidityRef;
 
+  // Phương thức khởi tạo
   @override
   void initState() {
     super.initState();
+    // Khởi tạo các tham chiếu đến đường dẫn tương ứng của nhiệt độ và độ ẩm trong Firebase
     _temperatureRef = FirebaseDatabase.instance.ref('PTIOT_DHT/Temp');
     _humidityRef = FirebaseDatabase.instance.ref('PTIOT_DHT/hum');
   }
 
+  // Xây dựng giao diện của màn hình
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +44,7 @@ class _TempHumSensorScreenState extends State<TempHumSensorScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Temperature Card
+            // Card hiển thị nhiệt độ
             Card(
               elevation: 4,
               child: Padding(
@@ -46,12 +52,15 @@ class _TempHumSensorScreenState extends State<TempHumSensorScreen> {
                 child: StreamBuilder<DatabaseEvent>(
                   stream: _temperatureRef.onValue,
                   builder: (context, snapshot) {
+                    // Kiểm tra xem có dữ liệu hay không
                     if (snapshot.hasData &&
                         !snapshot.hasError &&
                         snapshot.data?.snapshot.value != null) {
+                      // Lấy giá trị nhiệt độ từ dữ liệu Firebase
                       double temperature = snapshot.data!.snapshot.value is int
                           ? (snapshot.data!.snapshot.value as int).toDouble()
                           : snapshot.data!.snapshot.value as double;
+                      // Hiển thị nhiệt độ lên màn hình
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -70,6 +79,7 @@ class _TempHumSensorScreenState extends State<TempHumSensorScreen> {
                         ],
                       );
                     } else {
+                      // Hiển thị vòng tròn tiến trình khi đang tải dữ liệu
                       return const Center(child: CircularProgressIndicator());
                     }
                   },
@@ -77,7 +87,7 @@ class _TempHumSensorScreenState extends State<TempHumSensorScreen> {
               ),
             ),
             const SizedBox(height: 16.0),
-            // Humidity Card
+            // Card hiển thị độ ẩm
             Card(
               elevation: 4,
               child: Padding(
@@ -85,12 +95,15 @@ class _TempHumSensorScreenState extends State<TempHumSensorScreen> {
                 child: StreamBuilder<DatabaseEvent>(
                   stream: _humidityRef.onValue,
                   builder: (context, snapshot) {
+                    // Kiểm tra xem có dữ liệu hay không
                     if (snapshot.hasData &&
                         !snapshot.hasError &&
                         snapshot.data?.snapshot.value != null) {
+                      // Lấy giá trị độ ẩm từ dữ liệu Firebase
                       double humidity = snapshot.data!.snapshot.value is int
                           ? (snapshot.data!.snapshot.value as int).toDouble()
                           : snapshot.data!.snapshot.value as double;
+                      // Hiển thị độ ẩm lên màn hình
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -109,6 +122,7 @@ class _TempHumSensorScreenState extends State<TempHumSensorScreen> {
                         ],
                       );
                     } else {
+                      // Hiển thị vòng tròn tiến trình khi đang tải dữ liệu
                       return const Center(child: CircularProgressIndicator());
                     }
                   },

@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+// Định nghĩa màn hình thông tin WiFi
 class WiFiPage extends StatefulWidget {
   const WiFiPage({super.key});
 
@@ -8,15 +9,20 @@ class WiFiPage extends StatefulWidget {
   State<WiFiPage> createState() => _WiFiPageState();
 }
 
+// Định nghĩa trạng thái của màn hình thông tin WiFi
 class _WiFiPageState extends State<WiFiPage> {
+  // Khai báo tham chiếu đến cơ sở dữ liệu Firebase cho thông tin WiFi
   late DatabaseReference _wifiRef;
 
+  // Phương thức khởi tạo
   @override
   void initState() {
     super.initState();
+    // Khởi tạo tham chiếu đến đường dẫn thông tin WiFi trong Firebase
     _wifiRef = FirebaseDatabase.instance.ref('PTIOT_DHT');
   }
 
+  // Xây dựng giao diện của màn hình
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,11 +40,14 @@ class _WiFiPageState extends State<WiFiPage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: StreamBuilder<DatabaseEvent>(
+          // Lắng nghe sự thay đổi dữ liệu từ Firebase
           stream: _wifiRef.onValue,
           builder: (context, snapshot) {
+            // Kiểm tra xem có dữ liệu hay không
             if (snapshot.hasData &&
                 !snapshot.hasError &&
                 snapshot.data?.snapshot.value != null) {
+              // Lấy dữ liệu WiFi từ Firebase
               Map<dynamic, dynamic> wifiData =
                   snapshot.data!.snapshot.value as Map<dynamic, dynamic>;
               String ssid = wifiData['WiFi_SSID']!;
@@ -48,7 +57,7 @@ class _WiFiPageState extends State<WiFiPage> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // SSID Card
+                  // Card hiển thị tên WiFi (SSID)
                   Card(
                     elevation: 4,
                     child: Padding(
@@ -83,7 +92,7 @@ class _WiFiPageState extends State<WiFiPage> {
                     ),
                   ),
                   const SizedBox(height: 16.0),
-                  // IP Address Card
+                  // Card hiển thị địa chỉ IP
                   Card(
                     elevation: 4,
                     child: Padding(
@@ -118,7 +127,7 @@ class _WiFiPageState extends State<WiFiPage> {
                     ),
                   ),
                   const SizedBox(height: 16.0),
-                  // RSSI Card
+                  // Card hiển thị cường độ tín hiệu (RSSI)
                   Card(
                     elevation: 4,
                     child: Padding(
@@ -155,6 +164,7 @@ class _WiFiPageState extends State<WiFiPage> {
                 ],
               );
             } else {
+              // Hiển thị vòng tròn tiến trình khi đang tải dữ liệu
               return const Center(child: CircularProgressIndicator());
             }
           },
